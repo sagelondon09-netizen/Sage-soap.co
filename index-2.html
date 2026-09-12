@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sage Soap.co</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#fff7fb;color:#332733}
+header{background:linear-gradient(135deg,#ffafd5,#ddc1ff);padding:18px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:30px;font-weight:800;color:#fff;text-shadow:0 2px 5px #9b6484}
+button{border:0;border-radius:22px;padding:11px 18px;font-weight:bold;cursor:pointer}.cartBtn{background:#fff;color:#633d59}
+.hero{text-align:center;padding:45px 20px 25px}.hero h1{font-size:44px;color:#d65396;margin:0 0 8px}.hero p{font-size:18px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;padding:25px 6%;max-width:1100px;margin:auto}
+.card{background:#fff;border-radius:22px;padding:22px;text-align:center;box-shadow:0 5px 18px #0001;border:1px solid #f1d8e6}.soap{font-size:62px}
+.card h2{color:#633d59}.price{font-size:23px;font-weight:bold;color:#d55396;margin:10px}.add{background:#d55396;color:#fff}
+.floating{position:fixed;right:15px;bottom:15px;background:#633d59;color:#fff;border-radius:25px;padding:13px 20px;z-index:10}
+#checkout{display:none;background:#fff;max-width:800px;margin:30px auto;padding:30px;border-radius:25px;box-shadow:0 5px 20px #0002}
+.item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
+.qty button{padding:5px 10px;margin:0 3px;background:#eee}.remove{background:#ffdce9;padding:6px 10px}
+input{width:100%;padding:13px;margin:6px 0;border:1px solid #ddd;border-radius:12px}.total{text-align:right;font-size:24px;font-weight:bold;margin:20px 0}
+.payment-options{display:grid;gap:10px;margin:15px 0}
+.payment-options label{display:block;background:#fff7fb;border:1px solid #ead5e2;border-radius:14px;padding:14px;cursor:pointer}
+.payment-options input{width:auto;margin-right:10px}.primary{background:#d55396;color:#fff}.secondary{background:#777;color:#fff;margin-left:8px}footer{text-align:center;padding:35px;color:#777}
+</style>
+</head>
+<body>
+<header><div class="logo">🌸 Sage Soap.co</div><button class="cartBtn" onclick="showCheckout()">🛒 Cart (<span id="count">0</span>)</button></header>
+
+<section class="hero"><h1>🧼 Sage Soap.co</h1><p>Fresh scents. Cute soaps. $9 each. ✨</p></section>
+<section class="products" id="products"></section>
+<div class="floating" onclick="showCheckout()">🛒 View Cart · $<span id="floatingTotal">0.00</span></div>
+
+<section id="checkout">
+<h1>🛍️ Checkout</h1><div id="cartItems"></div>
+<div class="total">Total: $<span id="total">0.00</span></div>
+<h2>📦 Shipping Information</h2>
+<input id="name" placeholder="Full name"><input id="address" placeholder="Shipping address">
+<input id="city" placeholder="City"><input id="state" placeholder="State"><input id="zip" placeholder="ZIP code">
+<h2>💳 Payment Method</h2>
+<p>Choose a payment method:</p>
+<div class="payment-options">
+  <label><input type="radio" name="payment" value="visa" checked> 💳 Visa</label>
+  <label><input type="radio" name="payment" value="mastercard"> 💳 Mastercard</label>
+  <label><input type="radio" name="payment" value="amex"> 💳 American Express</label>
+  <label><input type="radio" name="payment" value="paypal"> 🅿️ PayPal</label>
+  <label><input type="radio" name="payment" value="cashapp"> 💚 Cash App</label>
+</div>
+<p class="small">This is a checkout preview. It does not collect or store card numbers.</p>
+<button class="primary" onclick="placeOrder()">Place Order</button>
+<button class="secondary" onclick="backToShop()">Continue Shopping</button><p id="message"></p>
+</section>
+<footer>© 2026 Sage Soap.co · Made with care 💕</footer>
+
+<script>
+const soaps=[["💜","Lavender Pop"],["🍊","Orange"],["🌿","Eucalyptus"],["🌱","Tea Tree"],["🍋","Lemongrass"],["🤎","Patchouli"],["🌿","Rosemary"],["🌲","Cedarwood"]];
+let cart=[];
+const products=document.getElementById("products");
+soaps.forEach((s,i)=>products.innerHTML+=`<div class="card"><div class="soap">${s[0]}</div><h2>${s[1]}</h2><div class="price">$9.00</div><p>Fresh scented soap</p><button class="add" onclick="add(${i})">Add to Cart 🛒</button></div>`);
+function add(i){cart.push(i);update()}
+function update(){document.getElementById("count").textContent=cart.length;document.getElementById("floatingTotal").textContent=(cart.length*9).toFixed(2)}
+function showCheckout(){document.getElementById("checkout").style.display="block";document.getElementById("products").style.display="none";renderCart();scrollTo({top:0,behavior:"smooth"})}
+function backToShop(){document.getElementById("checkout").style.display="none";document.getElementById("products").style.display="grid"}
+function change(i,d){let p=cart.indexOf(i);if(d>0)cart.push(i);else if(p>=0)cart.splice(p,1);update();renderCart()}
+function removeAll(i){cart=cart.filter(x=>x!==i);update();renderCart()}
+function renderCart(){
+ let box=document.getElementById("cartItems");
+ if(!cart.length){box.innerHTML="<p>Your cart is empty. Add some soap first! 🧼💕</p>";}
+ else{let c={};cart.forEach(i=>c[i]=(c[i]||0)+1);box.innerHTML=Object.keys(c).map(i=>`<div class="item"><span>${soaps[i][0]} ${soaps[i][1]} × ${c[i]}</span><span class="qty"><button onclick="change(${i},-1)">−</button>${c[i]}<button onclick="change(${i},1)">+</button> <button class="remove" onclick="removeAll(${i})">Remove</button></span><strong>$${(c[i]*9).toFixed(2)}</strong></div>`).join("")}
+ document.getElementById("total").textContent=(cart.length*9).toFixed(2);
+}
+function placeOrder(){
+ if(!cart.length){message("Please add a soap first.");return}
+ if(!name.value.trim()||!address.value.trim()){message("Please enter your name and shipping address.");return}
+ message("🎉 Your order is ready! A real payment provider must be connected before taking payments.")
+}
+function message(t){document.getElementById("message").textContent=t}
+</script>
+</body>
+</html>
