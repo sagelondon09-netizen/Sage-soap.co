@@ -5,7 +5,7 @@ const PRODUCTS=[
 {id:3,name:"Cute Ring",cat:"ring",emoji:"💍",price:1,desc:"A cute 3D printed ring — just $1 each.",stripeLink:"https://buy.stripe.com/3cIaEX5yL1jb4S48WHcAo0F"},
 {id:4,name:"Mini Storage Box",cat:"storage",emoji:"📦",price:8,desc:"A tiny organizer for clips, beads and little treasures.",stripeLink:"https://buy.stripe.com/bJe7sL0er7Hz98k6OzcAo0I"},
 {id:5,name:"Desk Organizer",cat:"storage",emoji:"🗃️",price:10,desc:"Keep your small supplies neat and easy to grab.",stripeLink:"https://buy.stripe.com/cNifZh9P1bXPbgs3CncAo0J"},
-{id:6,name:"Croc Charm",cat:"charm",emoji:"🧸",price:0.25,desc:"25¢ per charm, or get 6 for $1.50.",stripeLink:"https://buy.stripe.com/3cI00j3qDaTLgAM3CncAo0K"},
+{id:6,name:"Croc Charm",cat:"charm",emoji:"🧸",price:0.5,desc:"50¢ per charm, or get 6 for $3.00.",stripeLink:"https://buy.stripe.com/eVqaEX7GT1jbbgsc8TcAo0M",packLink:"https://buy.stripe.com/00wdR99P14vn2JWfl5cAo0N"},
 {id:7,name:"Headband",cat:"headband",emoji:"🎀",price:4,desc:"Pick your favorite headband style below.",stripeLink:"https://buy.stripe.com/4gMdR91ivaTLesE7SDcAo0L"}
 ];
 let cart=JSON.parse(localStorage.getItem("printSistersCart")||"[]");
@@ -16,7 +16,7 @@ function productExtras(p){
     return '<label class="choice-label">Choose a headband</label><select id="headband-'+p.id+'" class="choice"><option value="">Select a style</option>'+HEADBANDS.map(x=>"<option>"+x+"</option>").join("")+"</select>";
   }
   if(p.cat==="charm"){
-    return '<label class="choice-label">Choose a pack</label><select id="charm-'+p.id+'" class="choice"><option value="1" data-price="0.25">1 charm — $0.25</option><option value="6" data-price="1.50">6 charms — $1.50</option></select>";
+    return '<label class="choice-label">Choose a pack</label><select id="charm-'+p.id+'" class="choice"><option value="1" data-price="0.50">1 charm — $0.50</option><option value="6" data-price="3.00">6 charms — $3.00</option></select>";
   }
   return "";
 }
@@ -30,7 +30,7 @@ function renderProducts(filter="all"){
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
         ${productExtras(p)}
-        <div class="row"><span class="price" id="price-${p.id}">${p.cat==="charm"?"$0.25":money(p.price)}</span><button class="add" onclick="addToCart(${p.id})">Add to cart</button></div>
+        <div class="row"><span class="price" id="price-${p.id}">${p.cat==="charm"?"$0.50":money(p.price)}</span><button class="add" onclick="addToCart(${p.id})">Add to cart</button></div>
         <a class="stripe-buy" href="${p.stripeLink}" target="_blank" rel="noopener">💳 Checkout with Stripe</a>
         ${p.cat==="charm"?'<small class="stripe-note">Stripe checkout: 6 charms for $1.50</small>':""}
       </div>
@@ -41,7 +41,7 @@ function renderProducts(filter="all"){
 function addToCart(id){
   const p=PRODUCTS.find(x=>x.id===id);let variant="";let unitPrice=p.price;let units=1;
   if(p.cat==="headband"){const el=document.getElementById("headband-"+id);variant=el?.value||"";if(!variant){alert("Please choose a headband style first.");return;}}
-  if(p.cat==="charm"){const el=document.getElementById("charm-"+id);units=Number(el?.value||1);unitPrice=units===6?1.50:0.25;variant=units===6?"6 charms":"1 charm";}
+  if(p.cat==="charm"){const el=document.getElementById("charm-"+id);units=Number(el?.value||1);unitPrice=units===6?3.00:0.50;variant=units===6?"6 charms":"1 charm";}
   const item=cart.find(x=>x.id===id&&x.variant===variant&&x.unitPrice===unitPrice);
   if(item)item.qty++;else cart.push({id,qty:1,variant,unitPrice,units});
   save();updateCount();renderCart();
