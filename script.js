@@ -14,13 +14,13 @@ let cart=JSON.parse(localStorage.getItem("printSistersCart")||"[]");
 const money=n=>"$"+n.toFixed(2);
 const catLabel=c=>({bookmark:"Bookmarks",animal:"Articulated Animals",ring:"Rings",storage:"Storage",charm:"Croc Charms",headband:"Headbands"}[c]||c);
 function productExtras(p){
-  if(p.cat===\"headband\"){
-    return `<label class=\"choice-label\">Choose a headband</label><select id=\"headband-${p.id}\" class=\"choice\"><option value=\"\">Select a style</option>${HEADBANDS.map(x=>\"<option>\"+x+\"</option>\").join(\"\")}</select><div class=\"headband-examples\"><div><img src=\"${UNICORN_EXAMPLE}\" alt=\"Unicorn headband example\"><span>Unicorn headband — example</span></div><div><img src=\"${LADYBUG_EXAMPLE}\" alt=\"Ladybug headband example\"><span>Ladybug headband — example</span></div></div>`;
+  if(p.cat==="headband"){
+    return `<label class="choice-label">Choose a headband</label><select id="headband-${p.id}" class="choice"><option value="">Select a style</option>${HEADBANDS.map(x=>"<option>"+x+"</option>").join("")}</select><div class="headband-examples"><div><img src="${UNICORN_EXAMPLE}" alt="Unicorn headband example"><span>Unicorn headband — example</span></div><div><img src="${LADYBUG_EXAMPLE}" alt="Ladybug headband example"><span>Ladybug headband — example</span></div></div>`;
   }
-  if(p.cat===\"charm\"){
-    return '<label class=\"choice-label\">Choose a pack</label><select id=\"charm-'+p.id+'\" class=\"choice\"><option value=\"1\" data-price=\"0.50\">1 charm — $0.50</option><option value=\"6\" data-price=\"3.00\">6 charms — $3.00</option></select>';
+  if(p.cat==="charm"){
+    return '<label class="choice-label">Choose a pack</label><select id="charm-'+p.id+'" class="choice"><option value="1" data-price="0.50">1 charm — $0.50</option><option value="6" data-price="3.00">6 charms — $3.00</option></select>';
   }
-  return \"\";
+  return "";
 }
 function renderProducts(filter="all"){
   const list=filter==="all"?PRODUCTS:PRODUCTS.filter(p=>p.cat===filter);
