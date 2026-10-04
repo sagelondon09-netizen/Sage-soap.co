@@ -31,8 +31,8 @@ function renderProducts(filter="all"){
         <p>${p.desc}</p>
         ${productExtras(p)}
         <div class="row"><span class="price" id="price-${p.id}">${p.cat==="charm"?"$0.50":money(p.price)}</span><button class="add" onclick="addToCart(${p.id})">Add to cart</button></div>
-        <a class="stripe-buy" href="${p.stripeLink}" target="_blank" rel="noopener">💳 Checkout with Stripe</a>
-        ${p.cat==="charm"?'<small class="stripe-note">Stripe checkout: 6 charms for $1.50</small>':""}
+        <a id="stripe-${p.id}" class="stripe-buy" href="${p.stripeLink}" target="_blank" rel="noopener">💳 Checkout with Stripe</a>
+        ${p.cat==="charm"?'<small class="stripe-note">Stripe checkout: 6 charms for $3.00</small>':""}
       </div>
     </article>`).join("");
   const charmSelect=document.getElementById("charm-6");
