@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>The Print Sisters | 3D Printed Fun</title>
-  <meta name="description" content="The Print Sisters — bookmarks, articulated animals, rings, storage and Croc charms made with 3D printing.">
+  <meta name="description" content="The Print Sisters — bookmarks, articulated animals, rings, storage, Croc charms and headbands made with 3D printing.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,18 +32,19 @@
     </div>
     <div class="printer-scene" aria-label="3D printer illustration">
       <div class="glow"></div><div class="print-frame"><div class="top-rail"></div><div class="nozzle"></div><div class="print-bed"></div><div class="little-print">★</div></div>
-      <div class="floating-card fc1">🐸<small>Bendy buddies</small></div>
+      <div class="floating-card fc1">🎀<small>Cute headbands</small></div>
       <div class="floating-card fc2">🔖<small>Bookish stuff</small></div>
       <div class="floating-card fc3">💍<small>Cute rings</small></div>
     </div>
   </section>
 
   <section id="categories" class="cat-band">
-    <a data-filter-link="bookmark" href="#shop">🔖 <b>Bookmarks</b><small>for readers</small></a>
-    <a data-filter-link="animal" href="#shop">🐾 <b>Animals</b><small>wiggle & flex</small></a>
-    <a data-filter-link="ring" href="#shop">💍 <b>Rings</b><small>tiny accessories</small></a>
+    <a data-filter-link="bookmark" href="#shop">🔖 <b>Bookmarks</b><small>$2 each</small></a>
+    <a data-filter-link="animal" href="#shop">🐍 <b>Animals</b><small>snake • $6</small></a>
+    <a data-filter-link="ring" href="#shop">💍 <b>Rings</b><small>$1 each</small></a>
     <a data-filter-link="storage" href="#shop">📦 <b>Storage</b><small>cute + useful</small></a>
-    <a data-filter-link="charm" href="#shop">🧸 <b>Croc Charms</b><small>shoe bling</small></a>
+    <a data-filter-link="charm" href="#shop">🧸 <b>Croc Charms</b><small>25¢ each • 6/$1.50</small></a>
+    <a data-filter-link="headband" href="#shop">🎀 <b>Headbands</b><small>5 styles</small></a>
   </section>
 
   <section id="shop" class="section shop">
@@ -52,10 +53,11 @@
       <div class="filters">
         <button class="filter active" data-filter="all">All</button>
         <button class="filter" data-filter="bookmark">🔖 Bookmarks</button>
-        <button class="filter" data-filter="animal">🐾 Animals</button>
+        <button class="filter" data-filter="animal">🐍 Animals</button>
         <button class="filter" data-filter="ring">💍 Rings</button>
         <button class="filter" data-filter="storage">📦 Storage</button>
         <button class="filter" data-filter="charm">🧸 Croc Charms</button>
+        <button class="filter" data-filter="headband">🎀 Headbands</button>
       </div>
     </div>
     <div id="products" class="product-grid"></div>
@@ -68,7 +70,7 @@
 
   <section id="about" class="section about">
     <div class="about-art"><div class="orb">👯‍♀️</div><span class="bubble b1">PRINT</span><span class="bubble b2">CREATE</span><span class="bubble b3">SHARE</span></div>
-    <div class="about-copy"><div class="eyebrow">MEET THE PRINT SISTERS</div><h2>We turn ideas into little things you can hold.</h2><p>The Print Sisters is a sister-run 3D printing shop. We love making fun, useful and adorable prints that add a little personality to everyday life.</p><div class="mini-stats"><div><b>5</b><span>shop categories</span></div><div><b>3D</b><span>printed with care</span></div><div><b>∞</b><span>ideas to make</span></div></div></div>
+    <div class="about-copy"><div class="eyebrow">MEET THE PRINT SISTERS</div><h2>We turn ideas into little things you can hold.</h2><p>The Print Sisters is a sister-run 3D printing shop. We love making fun, useful and adorable prints that add a little personality to everyday life.</p><div class="mini-stats"><div><b>6</b><span>shop categories</span></div><div><b>3D</b><span>printed with care</span></div><div><b>∞</b><span>ideas to make</span></div></div></div>
   </section>
 
   <section id="faq" class="section faq">
@@ -80,7 +82,7 @@
   </section>
 </main>
 
-<footer><div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark">PS</span><span>The Print <b>Sisters</b></span></a><p>3D printed fun, made with care. ✨</p></div><div><b>Shop</b><a href="#shop">All prints</a><a href="#shop" data-footer-filter="bookmark">Bookmarks</a><a href="#shop" data-footer-filter="animal">Animals</a></div><div><b>More</b><a href="#about">About us</a><a href="#faq">FAQ</a><a href="mailto:sagelondon09@gmail.com">Contact</a></div><div class="footer-bottom">© 2026 The Print Sisters · All rights reserved.</div></footer>
+<footer><div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark">PS</span><span>The Print <b>Sisters</b></span></a><p>3D printed fun, made with care. ✨</p></div><div><b>Shop</b><a href="#shop">All prints</a><a href="#shop" data-footer-filter="bookmark">Bookmarks</a><a href="#shop" data-footer-filter="animal">Animals</a><a href="#shop" data-footer-filter="headband">Headbands</a></div><div><b>More</b><a href="#about">About us</a><a href="#faq">FAQ</a><a href="mailto:sagelondon09@gmail.com">Contact</a></div><div class="footer-bottom">© 2026 The Print Sisters · All rights reserved.</div></footer>
 
 <div id="cartDrawer" class="overlay" onclick="outsideCart(event)">
   <aside class="cart-drawer"><div class="cart-top"><h2>Your cart 🛒</h2><button onclick="toggleCart(false)">×</button></div><div id="cartItems"></div><div class="cart-bottom"><div class="total"><span>Total</span><b id="cartTotal">$0.00</b></div><button class="btn primary full" onclick="sendOrder()">Place order request</button><p>We'll open an email with your order details. You can confirm the final price, color and pickup/shipping details with us.</p></div></aside>
