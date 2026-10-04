@@ -2,3 +2,5 @@
 .choice-label{display:block;font-size:.72rem;font-weight:900;margin:-3px 0 6px;color:#5f5568}.choice{width:100%;padding:10px 11px;border:1px solid #eadfee;border-radius:10px;background:#fff;color:#201a2d;font-weight:700;margin:0 0 13px}.choice:focus{outline:2px solid #8e55d555;border-color:#8e55d5}
 
 .section.shop,.section.about,.section.faq{background:rgba(255,250,254,.58);border-radius:28px;margin-left:4%;margin-right:4%}
+
+.stripe-buy{display:block;text-align:center;margin-top:9px;padding:10px 12px;border-radius:10px;background:#635bff;color:#fff;font-size:.82rem;font-weight:900}.stripe-buy:hover{filter:brightness(.96)}.stripe-note{display:block;text-align:center;color:#756b7e;font-size:.68rem;margin-top:5px}
