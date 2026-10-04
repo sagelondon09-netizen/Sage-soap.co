@@ -16,7 +16,7 @@ function productExtras(p){
     return '<label class="choice-label">Choose a headband</label><select id="headband-'+p.id+'" class="choice"><option value="">Select a style</option>'+HEADBANDS.map(x=>"<option>"+x+"</option>").join("")+"</select>";
   }
   if(p.cat==="charm"){
-    return '<label class="choice-label">Choose a pack</label><select id="charm-'+p.id+'" class="choice"><option value="1" data-price="0.50">1 charm — $0.50</option><option value="6" data-price="3.00">6 charms — $3.00</option></select>";
+    return '<label class="choice-label">Choose a pack</label><select id="charm-'+p.id+'" class="choice"><option value="1" data-price="0.50">1 charm — $0.50</option><option value="6" data-price="3.00">6 charms — $3.00</option></select>';
   }
   return "";
 }
@@ -36,7 +36,7 @@ function renderProducts(filter="all"){
       </div>
     </article>`).join("");
   const charmSelect=document.getElementById("charm-6");
-  if(charmSelect){charmSelect.addEventListener("change",()=>{const selected=charmSelect.options[charmSelect.selectedIndex];document.getElementById("price-6").textContent=money(Number(selected.dataset.price));});}
+  if(charmSelect){charmSelect.addEventListener("change",()=>{const selected=charmSelect.options[charmSelect.selectedIndex];const isSix=selected.value==="6";document.getElementById("price-6").textContent=money(Number(selected.dataset.price));document.getElementById("stripe-6").href=isSix?"https://buy.stripe.com/00wdR99P14vn2JWfl5cAo0N":"https://buy.stripe.com/eVqaEX7GT1jbbgsc8TcAo0M";});}
 }
 function addToCart(id){
   const p=PRODUCTS.find(x=>x.id===id);let variant="";let unitPrice=p.price;let units=1;
