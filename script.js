@@ -7,7 +7,7 @@ const PRODUCTS=[
 {id:3,name:"Cute Ring",cat:"ring",emoji:"💍",price:1,desc:"A cute 3D printed ring — just $1 each.",stripeLink:"https://buy.stripe.com/3cIaEX5yL1jb4S48WHcAo0F"},
 {id:4,name:"Mini Storage Box",cat:"storage",emoji:"📦",price:8,desc:"A tiny organizer for clips, beads and little treasures.",stripeLink:"https://buy.stripe.com/bJe7sL0er7Hz98k6OzcAo0I"},
 {id:5,name:"Desk Organizer",cat:"storage",emoji:"🗃️",price:10,desc:"Keep your small supplies neat and easy to grab.",stripeLink:"https://buy.stripe.com/cNifZh9P1bXPbgs3CncAo0J"},
-{id:6,name:"Croc Charm",cat:"charm",emoji:"🧸",price:0.5,desc:"50¢ per charm, or get 6 for $3.00.",stripeLink:"https://buy.stripe.com/eVqaEX7GT1jbbgsc8TcAo0M",packLink:"https://buy.stripe.com/00wdR99P14vn2JWfl5cAo0N"},
+{id:6,name:"Croc Charm",cat:"charm",emoji:"🧸",price:0.5,desc:"50¢ each • 2 for $0.80 • 3 for $1.50 • 6 for $3.00.",stripeLink:"https://buy.stripe.com/eVqaEX7GT1jbbgsc8TcAo0M",packLinks:{"1":"https://buy.stripe.com/eVqaEX7GT1jbbgsc8TcAo0M","2":"https://buy.stripe.com/28EbJ1aT54vn0BO7SDcAo0O","3":"https://buy.stripe.com/cNifZhaT5fa12JW7SDcAo0P","6":"https://buy.stripe.com/00wdR99P14vn2JWfl5cAo0N"}},
 {id:7,name:"Headband",cat:"headband",emoji:"🎀",price:4,desc:"Pick your favorite headband style below.",stripeLink:"https://buy.stripe.com/4gMdR91ivaTLesE7SDcAo0L"}
 ];
 let cart=JSON.parse(localStorage.getItem("printSistersCart")||"[]");
@@ -18,7 +18,7 @@ function productExtras(p){
     return `<label class="choice-label">Choose a headband</label><select id="headband-${p.id}" class="choice"><option value="">Select a style</option>${HEADBANDS.map(x=>"<option>"+x+"</option>").join("")}</select><div class="headband-examples"><div><img src="${UNICORN_EXAMPLE}" alt="Unicorn headband example"><span>Unicorn headband — example</span></div><div><img src="${LADYBUG_EXAMPLE}" alt="Ladybug headband example"><span>Ladybug headband — example</span></div></div>`;
   }
   if(p.cat==="charm"){
-    return '<label class="choice-label">Choose a pack</label><select id="charm-'+p.id+'" class="choice"><option value="1" data-price="0.50">1 charm — $0.50</option><option value="6" data-price="3.00">6 charms — $3.00</option></select>';
+    return '<label class="choice-label">Choose a pack</label><select id="charm-'+p.id+'" class="choice"><option value="1" data-price="0.50">1 charm — $0.50</option><option value="2" data-price="0.80">2 charms — $0.80</option><option value="3" data-price="1.50">3 charms — $1.50</option><option value="6" data-price="3.00">6 charms — $3.00</option></select>';
   }
   return "";
 }
@@ -38,14 +38,14 @@ function renderProducts(filter="all"){
       </div>
     </article>`).join("");
   const charmSelect=document.getElementById("charm-6");
-  if(charmSelect){charmSelect.addEventListener("change",()=>{const selected=charmSelect.options[charmSelect.selectedIndex];const isSix=selected.value==="6";document.getElementById("price-6").textContent=money(Number(selected.dataset.price));document.getElementById("stripe-6").href=isSix?"https://buy.stripe.com/00wdR99P14vn2JWfl5cAo0N":"https://buy.stripe.com/eVqaEX7GT1jbbgsc8TcAo0M";});}
+  if(charmSelect){charmSelect.addEventListener("change",()=>{const selected=charmSelect.options[charmSelect.selectedIndex];const value=selected.value;document.getElementById("price-6").textContent=money(Number(selected.dataset.price));document.getElementById("stripe-6").href=PRODUCTS.find(p=>p.id===6).packLinks[value];});}
 }
 function addToCart(id){
   const p=PRODUCTS.find(x=>x.id===id);let variant="";let unitPrice=p.price;let units=1;
   if(p.cat==="headband"){const el=document.getElementById("headband-"+id);variant=el?.value||"";if(!variant){alert("Please choose a headband style first.");return;}}
-  if(p.cat==="charm"){const el=document.getElementById("charm-"+id);units=Number(el?.value||1);unitPrice=units===6?3.00:0.50;variant=units===6?"6 charms":"1 charm";}
+  if(p.cat==="charm"){const el=document.getElementById("charm-"+id);units=Number(el?.value||1);unitPrice=units===6?3.00:units===3?1.50:units===2?0.80:0.50;variant=units+" charm"+(units===1?"":"s");}
   const item=cart.find(x=>x.id===id&&x.variant===variant&&x.unitPrice===unitPrice);
-  if(item)item.qty++;else cart.push({id,qty:1,variant,unitPrice,units});
+  if(item)item.qty++;else cart.push({id,qty:1,variant,unitPrice,units,stripeLink:p.cat==="charm"?p.packLinks[String(units)]:p.stripeLink});
   save();updateCount();renderCart();
 }
 function changeQty(index,d){const item=cart[index];if(!item)return;item.qty+=d;if(item.qty<=0)cart.splice(index,1);save();updateCount();renderCart();}
@@ -64,7 +64,7 @@ function toggleMenu(){document.getElementById("mobileNav").classList.toggle("ope
 function applyFilter(filter){document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter));renderProducts(filter);location.hash="shop"}
 function sendOrder(){
   if(!cart.length){alert("Your cart is empty.");return;}
-  if(cart.length===1){const x=cart[0],p=PRODUCTS.find(y=>y.id===x.id);if(p&&p.stripeLink){window.location.href=p.stripeLink;return;}}
+  if(cart.length===1){const x=cart[0],p=PRODUCTS.find(y=>y.id===x.id);if(p&&x.stripeLink){window.location.href=x.stripeLink;return;}}
   alert("For a mixed cart, please use the Stripe checkout button on each product. Stripe checkout is ready with no sales tax added.");
 }
 document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>applyFilter(b.dataset.filter)));
