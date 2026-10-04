@@ -6,7 +6,7 @@ const PRODUCTS=[
 {id:4,name:"Mini Storage Box",cat:"storage",emoji:"📦",price:8,desc:"A tiny organizer for clips, beads and little treasures."},
 {id:5,name:"Desk Organizer",cat:"storage",emoji:"🗃️",price:10,desc:"Keep your small supplies neat and easy to grab."},
 {id:6,name:"Croc Charm",cat:"charm",emoji:"🧸",price:0.25,desc:"25¢ per charm, or get 6 for $1.50."},
-{id:7,name:"Headband",cat:"headband",emoji:"🎀",price:5,desc:"Pick your favorite headband style below."}
+{id:7,name:"Headband",cat:"headband",emoji:"🎀",price:4,desc:"Pick your favorite headband style below."}
 ];
 let cart=JSON.parse(localStorage.getItem("printSistersCart")||"[]");
 const money=n=>"$"+n.toFixed(2);
